@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "de.aaschmid.cpd" version "1.2"
 }
 
 group 'fr.imie'
@@ -9,6 +10,8 @@ def classesJava = "${project.buildDir}/classes/main"
 def javasRoot = "${rootProject.rootDir}/src/main/java"
 def testClassesJava = "$project.buildDir}/classes/test"
 def testJavaRoot = "${rootProject.rootDir}/src/test/java"
+def defaultEncoding = 'UTF-8'
+[compileJava, compileTestJava]*.options*.encoding = defaultEncoding
 
 sourceCompatibility = 1.8
 
@@ -22,16 +25,8 @@ dependencies {
 
 apply plugin: 'java'
 apply plugin: 'idea'
+
 apply plugin: 'checkstyle'
-
-//tasks.withType(Checkstyle) {
-//    reports {
-//        xml.enabled false
-//        html.enabled true
-//        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
-//    }
-//}
-
 checkstyle {
     toolVersion '8.19'
     configFile file("config/checkstyle/checkstyle.xml")
@@ -41,4 +36,45 @@ checkstyleMain {
 }
 checkstyleTest {
     source = 'src/test/java'
+}
+
+apply plugin: 'findbugs'
+findbugs {
+    ignoreFailures = false
+    toolVersion = "3.0.1"
+    sourceSets=[sourceSets.main]
+//    excludeFilter = file("config/findbugs/excludeFilter.xml")
+    reportsDir = file("$project.buildDir/reports/findbugs")
+    effort = "max"
+}
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+apply plugin: "jacoco"
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+apply plugin: "pmd"
+pmd {
+    ignoreFailures = true
+    sourceSets = [sourceSets.main]
+    reportsDir = file("$project.buildDir/reports/pmd")
+}
+
+apply plugin: "de.aaschmid.cpd"
+cpdCheck {
+    reports {
+        text.enabled = true
+        xml.enabled = false
+    }
+    source = sourceSets.main.allJava // only java, groovy and scala classes in 'main' sourceSets
 }

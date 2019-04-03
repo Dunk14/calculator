@@ -29,9 +29,9 @@
         <property name="eachLine" value="true"/>
     </module>
 
-    <module name="Checker">
+   <!-- <module name="FileTabWidth">
         <property name="tabWidth" value="2"/>
-    </module>
+    </module>-->
 
     <module name="TreeWalker">
         <module name="OuterTypeFilename"/>
