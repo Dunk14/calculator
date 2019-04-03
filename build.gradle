@@ -5,6 +5,11 @@ plugins {
 group 'fr.imie'
 version '1.0-SNAPSHOT'
 
+def classesJava = "${project.buildDir}/classes/main"
+def javasRoot = "${rootProject.rootDir}/src/main/java"
+def testClassesJava = "$project.buildDir}/classes/test"
+def testJavaRoot = "${rootProject.rootDir}/src/test/java"
+
 sourceCompatibility = 1.8
 
 repositories {
@@ -13,4 +18,27 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'checkstyle'
+
+//tasks.withType(Checkstyle) {
+//    reports {
+//        xml.enabled false
+//        html.enabled true
+//        html.stylesheet resources.text.fromFile('config/xsl/checkstyle-custom.xsl')
+//    }
+//}
+
+checkstyle {
+    toolVersion '8.19'
+    configFile file("config/checkstyle/checkstyle.xml")
+}
+checkstyleMain {
+    source = 'src/main/java'
+}
+checkstyleTest {
+    source = 'src/test/java'
 }
