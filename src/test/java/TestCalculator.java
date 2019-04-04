@@ -1,6 +1,7 @@
-import Exceptions.ExceptionMaxValueReached;
 import org.junit.Before;
 import org.junit.Test;
+
+import exceptions.ExceptionMaxValueReached;
 
 import java.util.Arrays;
 
