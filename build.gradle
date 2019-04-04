@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'fr.imie'
-version '1.0-SNAPSHOT'
+version '1.0.0'
 
 def classesJava = "${project.buildDir}/classes/main"
 def javasRoot = "${rootProject.rootDir}/src/main/java"
