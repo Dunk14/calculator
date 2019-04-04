@@ -50,17 +50,17 @@ findbugs {
 }
 tasks.withType(FindBugs) {
     reports {
-        xml.enabled false
-        html.enabled true
+        xml.enabled true
+        html.enabled false
     }
 }
 
 apply plugin: "jacoco"
 jacocoTestReport {
     reports {
-        xml.enabled false
+        xml.enabled true
         csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
+        html.destination file("${buildDir}/reports/jacoco")
     }
 }
 
@@ -74,8 +74,8 @@ pmd {
 apply plugin: "de.aaschmid.cpd"
 cpdCheck {
     reports {
-        text.enabled = true
-        xml.enabled = false
+        text.enabled = false
+        xml.enabled = true
     }
     source = sourceSets.main.allJava // only java, groovy and scala classes in 'main' sourceSets
 }
